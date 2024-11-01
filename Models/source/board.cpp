@@ -2,13 +2,15 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 
+/*
 
 Board::Board()
+: Material()
 {
 
 }
 
-void Board::draw()
+void Board::draw(float* Superficie)
 {
     glColor3f(Superficie[0], Superficie[1], Superficie[2]);
 
@@ -55,3 +57,5 @@ void Board::draw()
     glutSolidCube(200);
     glPopMatrix();
 }
+
+*/

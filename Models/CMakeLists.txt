@@ -1,7 +1,7 @@
 find_package(OpenGL)
 find_package(GLUT)
 
-set(MODELS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include CACHE PATH "Models Include dirs")
+set(MODELS_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include CACHE PATH "Models Include dirs" )
 
 set(MODELS_INCLUDE_DIRS
         ${MODELS_INCLUDE_DIR}
