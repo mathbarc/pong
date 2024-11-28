@@ -3,16 +3,15 @@
 
 class Score
 {
-    public:
-        Score();
-        void draw();
+  public:
+    Score();
+    void draw();
 
-        void increase();
-        void reset();
+    void increase();
+    void reset();
 
-    private:
-        int score;
-
+  private:
+    int score;
 };
 
 #endif

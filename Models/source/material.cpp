@@ -1,18 +1,14 @@
 #include "material.hpp"
-#include <cstring>
 #include <GL/gl.h>
+#include <cstring>
 
-
-Material::Material(float mi, float density, float r, float g, float b)
-    : mi(mi)
-    , density(density)
+Material::Material(float mi, float density, float r, float g, float b) : mi(mi), density(density)
 
 {
 
     color[0] = r;
     color[1] = g;
     color[2] = b;
-
 }
 
 float Material::getDensity()

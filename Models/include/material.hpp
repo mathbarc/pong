@@ -4,19 +4,18 @@
 
 class Material
 {
-    public:
-        Material(float mi, float density, float r, float g, float b);
+  public:
+    Material(float mi, float density, float r, float g, float b);
 
-        float getMi();
-        float getDensity();
+    float getMi();
+    float getDensity();
 
-        void apply();
+    void apply();
 
-
-    private:
-        float mi;
-        float color[3];
-        float density;
+  private:
+    float mi;
+    float color[3];
+    float density;
 };
 
 static const Material ice(0.05, 1, 0.7, 0.7, 1.);
