@@ -4,13 +4,13 @@
 class Ball
 {
   private:
-    float Massa;
-    float Aceleracao[2];
-    float Velocidade[2];
-    float Posicao[2];
-    float Cor[3];
-    float VelocidadeTotal;
-    float especularidade[4];
+    float mass;
+    float acceleration[2];
+    float velocity[2];
+    float position[2];
+    float color[3];
+    float totalVelocity;
+    float especularity[4];
 
   public:
     Ball();
