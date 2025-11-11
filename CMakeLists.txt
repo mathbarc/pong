@@ -4,6 +4,6 @@ project("Pong" VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_subdirectory(Models)
+#add_subdirectory(Models)
 add_subdirectory(Game)
 
