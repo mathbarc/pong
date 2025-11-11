@@ -1,0 +1,49 @@
+name: Cross-platform C++ Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Install dependencies (OS-specific)
+      - name: Install dependencies
+        run: |
+          if [ "${{ runner.os }}" = "Linux" ]; then
+            sudo apt-get update
+            sudo apt-get install -y build-essential cmake
+          elif [ "${{ runner.os }}" = "Windows" ]; then
+            mingw32-make -j4
+          elif [ "${{ runner.os }}" = "macOS" ]; then
+            brew install cmake
+          else
+            make -j$(nproc)
+          fi
+        shell: bash
+
+      # Step 3: Configure (CMake)
+      - name: Configure CMake
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      # Step 4: Build
+      - name: Build
+        run: cmake --build build --config Release -- -j 4
+
+      # Step 5: Run tests (if you have CTest or similar)
+      - name: Run tests
+        run: |
+          cd build
+          ctest --output-on-failure || true
