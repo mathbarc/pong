@@ -26,9 +26,9 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y build-essential cmake libglut-dev
           elif [ "${{ runner.os }}" = "Windows" ]; then
-            vcpkg install freeglut
+            vcpkg install freeglut glew
           elif [ "${{ runner.os }}" = "macOS" ]; then
-            brew install cmake freeglut
+            brew install cmake freeglut glew
           fi
         shell: bash
 
@@ -38,7 +38,7 @@ jobs:
           if [ "${{ runner.os }}" = "Windows" ]; then
           cmake -S . -B build \
             -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_TOOLCHAIN_FILE="${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+            -DCMAKE_TOOLCHAIN_FILE="${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
           else
             cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
           fi
@@ -47,3 +47,9 @@ jobs:
       # Step 4: Build
       - name: Build
         run: cmake --build build --config Release -- -j 4
+
+      - name: Upload built binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-${{ matrix.os }}
+          path: build/
