@@ -1,5 +1,5 @@
-find_package(OpenGL)
-find_package(GLUT)
+find_package(OpenGL REQUIRED)
+find_package(GLUT REQUIRED)
 
 
 set(INCLUDE_DIRS
