@@ -27,7 +27,7 @@ jobs:
             sudo apt-get install -y build-essential cmake libglut-dev
           elif [ "${{ runner.os }}" = "Windows" ]; then
             vcpkg install freeglut glew;
-            npm install -g makensis
+            choco install nsis -y
           elif [ "${{ runner.os }}" = "macOS" ]; then
             brew install cmake freeglut glew
           fi
