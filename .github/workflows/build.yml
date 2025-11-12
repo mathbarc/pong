@@ -48,8 +48,11 @@ jobs:
       - name: Build
         run: cmake --build build --config Release --
 
+      - name: Generate Installer
+        run: cpack
+
       - name: Upload built binaries
         uses: actions/upload-artifact@v4
         with:
           name: app-${{ matrix.os }}
-          path: build/
+          path: build/_CPack_Packages/
