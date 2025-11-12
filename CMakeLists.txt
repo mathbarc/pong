@@ -33,8 +33,8 @@ if(LINUX)
 
     # --- Linux: AppImage ---
     # Note: CPackAppImage is available since CMake 3.21+
-    set(CPACK_GENERATOR "${CPACK_GENERATOR};AppImage")
-    set(CPACK_APPIMAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-x86_64.AppImage")
+    #set(CPACK_GENERATOR "${CPACK_GENERATOR};AppImage")
+    #set(CPACK_APPIMAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-x86_64.AppImage")
     #set(CPACK_APPIMAGE_DESKTOP_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Pong.desktop")
     #set(CPACK_APPIMAGE_ICON_FILE "${CMAKE_CURRENT_SOURCE_DIR}/resources/icon.svg")
 
