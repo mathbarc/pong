@@ -15,3 +15,5 @@ include_directories(${INCLUDE_DIRS})
 
 add_executable(Pong ${GAME_SOURCES})
 target_link_libraries(Pong ${GLUT_LIBRARIES} OpenGL::GL OpenGL::GLU)
+
+install(TARGETS Pong DESTINATION bin)
