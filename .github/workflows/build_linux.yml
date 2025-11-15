@@ -17,6 +17,8 @@ jobs:
       # Step 1: Checkout the code
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          submodules: "true"
 
       # Step 2: Install dependencies (OS-specific)
       - name: Install dependencies
