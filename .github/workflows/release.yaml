@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create Release
-        uses: actions/create-release@v1
+        uses: actions/create-release@v2
         id: create_release
         with:
           draft: false
@@ -57,7 +57,7 @@ jobs:
         run: cd ./build/; cpack
 
       - name: upload Linux artifact
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -101,7 +101,7 @@ jobs:
         run: cd ./build/; cpack
 
       - name: Upload Windows artifact
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
