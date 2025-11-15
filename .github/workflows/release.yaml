@@ -114,7 +114,7 @@ jobs:
       - name: Install dependencies
         run: |
           brew update
-          brew install cmake freeglut glew
+          brew install cmake
         shell: bash
 
       - name: Configure CMake
