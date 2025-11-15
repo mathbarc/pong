@@ -1,0 +1,122 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  create_release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  linux_release:
+    name: Build on Linux
+    runs-on: ubuntu-latest
+    needs: create-release
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: "true"
+
+      # Step 2: Install dependencies (OS-specific)
+      - name: Install dependencies
+        run: |
+          sudo apt-get update;
+          sudo apt-get install -y build-essential cmake libglut-dev
+        shell: bash
+
+      # Step 3: Configure (CMake)
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+        shell: bash
+
+      # Step 4: Build
+      - name: Build
+        run: cmake --build build --config Release --
+
+      - name: Generate Installer
+        run: cd ./build/; cpack
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: upload Linux artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/*.deb
+          asset_name: Pong.deb
+          asset_content_type: application/deb
+
+  windows_release:
+    name: Build on Windows
+    runs-on: windows-latest
+    needs: create-release
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: "true"
+
+      # Step 2: Install dependencies (OS-specific)
+      - name: Install dependencies
+        run: |
+          vcpkg install freeglut glew;
+          choco install nsis -y
+        shell: bash
+
+      # Step 3: Configure (CMake)
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        shell: bash
+
+      # Step 4: Build
+      - name: Build
+        run: cmake --build build --config Release --
+
+      - name: Generate Installer
+        run: cd ./build/; cpack
+
+      - name: Upload windows artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/*.exe
+          asset_name: Pong.exe
+          asset_content_type: application/exe
