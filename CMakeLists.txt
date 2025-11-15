@@ -29,7 +29,7 @@ if(LINUX)
     # --- Linux: .deb ---
     set(CPACK_GENERATOR "DEB")
     set(CPACK_DEBIAN_PACKAGE_MAINTAINER ".Solv") # required
-    set(CPACK_DEBIAN_PACKAGE_DEPENDS "libglut3 (>= 3.12)")
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS "libglut3.12")
     set(CPACK_DEBIAN_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
     set(CPACK_DEBIAN_PACKAGE_SECTION "games")
     set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
