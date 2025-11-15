@@ -14,12 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create Release
-        uses: actions/create-release@v2
+        uses: softprops/action-gh-release@v2
         id: create_release
         with:
-          draft: false
-          prerelease: false
-          release_name: ${{ steps.version.outputs.version }}
+          name: ${{ steps.version.outputs.version }}
           tag_name: ${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -57,14 +55,9 @@ jobs:
         run: cd ./build/; cpack
 
       - name: upload Linux artifact
-        uses: actions/upload-release-asset@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/*.deb
-          asset_name: Pong.deb
-          asset_content_type: application/deb
+          files: ./build/*.deb
 
   windows_release:
     name: Build on Windows
@@ -101,11 +94,8 @@ jobs:
         run: cd ./build/; cpack
 
       - name: Upload Windows artifact
-        uses: actions/upload-release-asset@v2
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./build/*.exe
-          asset_name: Pong.exe
-          asset_content_type: application/exe
+          files: ./build/*.exe
