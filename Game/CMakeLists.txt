@@ -19,7 +19,26 @@ target_link_libraries(Pong GLUT::GLUT OpenGL::GL OpenGL::GLU)
 install(TARGETS Pong DESTINATION bin)
 
 if(WIN32)
-    install(TARGETS GLUT::GLUT RUNTIME DESTINATION bin)
-    install(TARGETS OpenGL::GL RUNTIME DESTINATION bin)
-    install(TARGETS OpenGL::GLU RUNTIME DESTINATION bin)
+    get_filename_component(GLUT_LIB_DIR "${GLUT_LIBRARY}" DIRECTORY)
+
+    # Try common DLL locations
+    set(GLUT_DLL_CANDIDATES
+    "${GLUT_LIB_DIR}/freeglut.dll"
+    "${GLUT_LIB_DIR}/../bin/freeglut.dll"
+    "${GLUT_LIB_DIR}/../lib/freeglut.dll"
+)
+    foreach(path ${GLUT_DLL_CANDIDATES})
+        if(EXISTS "${path}")
+            set(GLUT_DLL "${path}")
+        endif()
+    endforeach()
+
+    if(NOT GLUT_DLL)
+        message(FATAL_ERROR "Could not locate freeglut DLL!")
+    endif()
+
+    message(STATUS "Found GLUT DLL: ${GLUT_DLL}")
+
+    install(FILES "${GLUT_DLL}" DESTINATION bin)
+
 endif()
