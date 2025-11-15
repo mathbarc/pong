@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.25)
 
-project("Pong" VERSION 1.0.0)
+project("Pong")
+
+include(${CMAKE_CURRENT_LIST_DIR}/cmake-utils/GitVersion.cmake)
+
+get_version_from_git()
 
 set(CMAKE_CXX_STANDARD 11)
 
