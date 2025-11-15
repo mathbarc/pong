@@ -56,23 +56,12 @@ jobs:
       - name: Generate Installer
         run: cd ./build/; cpack
 
-      - name: Create Release
-        uses: actions/create-release@v1
-        id: create_release
-        with:
-          draft: false
-          prerelease: false
-          release_name: ${{ steps.version.outputs.version }}
-          tag_name: ${{ github.ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: upload Linux artifact
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_path: ./build/*.deb
           asset_name: Pong.deb
           asset_content_type: application/deb
@@ -111,12 +100,12 @@ jobs:
       - name: Generate Installer
         run: cd ./build/; cpack
 
-      - name: Upload windows artifact
+      - name: Upload Windows artifact
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
           asset_path: ./build/*.exe
           asset_name: Pong.exe
           asset_content_type: application/exe
