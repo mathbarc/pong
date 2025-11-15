@@ -40,7 +40,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: upload deb package
-          path: build/_CPack_Packages/DEB/*.deb
+          path: build/*.deb
 
       - name: release
         uses: actions/create-release@v1
