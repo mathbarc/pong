@@ -24,13 +24,7 @@ jobs:
 
   linux_release:
     name: Build on Linux
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platform:
-          - linux/arm64/v8
-          - linux/amd64
-
+    runs-on: [ubuntu-latest, ubuntu-latest-arm]
     needs: create_release
 
     steps:
@@ -67,12 +61,7 @@ jobs:
 
   windows_release:
     name: Build on Windows
-    runs-on: windows-latest
-    strategy:
-      matrix:
-        platform:
-          - windows/arm64/v8
-          - windows/amd64
+    runs-on: [windows-latest, windows-latest-arm]
     needs: create_release
 
     steps:
@@ -113,12 +102,7 @@ jobs:
 
   macos_release:
     name: Build on macOS
-    runs-on: macos-latest
-    strategy:
-      matrix:
-        platform:
-          - macos/arm64/v8
-          - macos/amd64
+    runs-on: [macos-latest, macos-15-intel]
     needs: create_release
 
     steps:
