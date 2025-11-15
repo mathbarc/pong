@@ -37,6 +37,7 @@ if(WIN32)
     "${GLUT_LIB_DIR}/freeglut.dll"
     "${GLUT_LIB_DIR}/../bin/freeglut.dll"
     "${GLUT_LIB_DIR}/../lib/freeglut.dll"
+    "${GLUT_LIB_DIR}/../freeglut.dll"
 )
     foreach(path ${GLUT_DLL_CANDIDATES})
         if(EXISTS "${path}")
