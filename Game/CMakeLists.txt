@@ -31,17 +31,17 @@ if(WIN32)
         endif()
     endforeach()
 
-    message("freeglut DIR: ${GLUT_LIB_DIR}")
-    execute_process(COMMAND dir ${GLUT_LIB_DIR})
-    execute_process(COMMAND dir ${GLUT_LIB_DIR}"/..")
-    execute_process(COMMAND dir ${GLUT_LIB_DIR}"/../bin")
+    cmake_path(GET GLUT_LIB_DIR PARENT_PATH GLUT_DIR)
+    message("freeglut DIR: ${GLUT_DIR}")
+    execute_process(COMMAND dir ${GLUT_DIR})
+    execute_process(COMMAND dir "${GLUT_DIR}/lib")
+    execute_process(COMMAND dir "${GLUT_DIR}/bin")
 
     # Try common DLL locations
     set(GLUT_DLL_CANDIDATES
-    "${GLUT_LIB_DIR}/freeglut.dll"
-    "${GLUT_LIB_DIR}/../bin/freeglut.dll"
-    "${GLUT_LIB_DIR}/../lib/freeglut.dll"
-    "${GLUT_LIB_DIR}/../freeglut.dll"
+    "${GLUT_DIR}/freeglut.dll"
+    "${GLUT_DIR}/bin/freeglut.dll"
+    "${GLUT_DIR}/lib/freeglut.dll"
 )
     foreach(path ${GLUT_DLL_CANDIDATES})
         if(EXISTS "${path}")
