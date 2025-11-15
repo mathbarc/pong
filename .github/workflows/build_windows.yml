@@ -1,0 +1,56 @@
+name: Windows Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build on Windows
+    runs-on: windows-latest
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Install dependencies (OS-specific)
+      - name: Install dependencies
+        run: |
+          vcpkg install freeglut glew;
+          choco install nsis -y
+        shell: bash
+
+      # Step 3: Configure (CMake)
+      - name: Configure CMake
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        shell: bash
+
+      # Step 4: Build
+      - name: Build
+        run: cmake --build build --config Release --
+
+      - name: Generate Installer
+        run: cd ./build/; cpack
+
+      - name: Upload built binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-${{ matrix.os }}
+          path: build/_CPack_Packages/win64/NSIS/*.exe
+
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
