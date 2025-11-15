@@ -32,6 +32,10 @@ if(WIN32)
     endforeach()
 
     message("freeglut DIR: ${GLUT_LIB_DIR}")
+    execute_process(COMMAND dir ${GLUT_LIB_DIR})
+    execute_process(COMMAND dir ${GLUT_LIB_DIR}"/..")
+    execute_process(COMMAND dir ${GLUT_LIB_DIR}"/../bin")
+
     # Try common DLL locations
     set(GLUT_DLL_CANDIDATES
     "${GLUT_LIB_DIR}/freeglut.dll"
