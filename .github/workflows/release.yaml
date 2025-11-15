@@ -99,3 +99,37 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: ./build/*.exe
+
+  macos_release:
+    name: Build on macOS
+    runs-on: macos-latest
+    needs: create_release
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: "true"
+
+      - name: Install dependencies
+        run: |
+          brew update
+          brew install cmake freeglut glew
+        shell: bash
+
+      - name: Configure CMake
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+        shell: bash
+
+      - name: Build
+        run: cmake --build build --config Release --
+
+      - name: Generate Installer
+        run: cd build && cpack
+
+      - name: Upload macOS artifact
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: ./build/*.dmg
