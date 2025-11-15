@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.25)
 
 project("Pong")
 
-include(${CMAKE_CURRENT_LIST_DIR}/cmake-utils/GitVersion.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/cmake/GitVersion.cmake)
 
 get_version_from_git()
 
