@@ -57,4 +57,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./build/*.exe
+          asset_name: Pong.exe
           asset_content_type: application/exe
