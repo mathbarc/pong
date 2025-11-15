@@ -19,8 +19,9 @@ target_link_libraries(Pong GLUT::GLUT OpenGL::GL OpenGL::GLU)
 install(TARGETS Pong DESTINATION bin)
 
 if(WIN32)
-    get_filename_component(GLUT_LIB_DIR "${GLUT_LIBRARY}" DIRECTORY)
+    get_filename_component(GLUT_LIB_DIR GLUT::GLUT DIRECTORY)
 
+    message("freeglut DIR: ${GLUT_LIB_DIR}")
     # Try common DLL locations
     set(GLUT_DLL_CANDIDATES
     "${GLUT_LIB_DIR}/freeglut.dll"
